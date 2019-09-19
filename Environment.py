@@ -15,7 +15,7 @@ class EdgeEnv:
     def reset(self):
         self.users.clear()
         for i in range(self.num_user):
-            new_user = User(self.user_job_arrive_rate, np.random.randint(10, 201), self.SERVER_CPU_SPEED)
+            new_user = User(self.user_job_arrive_rate, np.random.randint(10, 101), self.SERVER_CPU_SPEED)
             self.users.append(new_user)
         self.buffer_using = 0
         return self.buffer_using
@@ -26,9 +26,9 @@ class EdgeEnv:
         else:
             self.buffer_using = 0
         reward = 0
-        cur_delay = 1 / (2 * self.MEC_job_finish_rate) + np.sqrt(new_price / (0.9 * self.MEC_job_finish_rate) + 1 / (4 * np.power(self.MEC_job_finish_rate, 2)))
+        true_delay = 1 / (2 * self.MEC_job_finish_rate) + np.sqrt(new_price / (0.9 * self.MEC_job_finish_rate) + 1 / (4 * np.power(self.MEC_job_finish_rate, 2)))
         for i in range(0, self.num_user):
-            true_delay = 100 * self.buffer_using / self.SERVER_CPU_SPEED
+            # true_delay = 20 * self.buffer_using / self.SERVER_CPU_SPEED
             cur_user_decision = self.users[i].make_offload_decision(new_price, true_delay)
             if cur_user_decision == 'EDGE':
                 self.buffer_using += self.users[i].get_load()

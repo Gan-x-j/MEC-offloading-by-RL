@@ -16,7 +16,7 @@ class User:
         self.time_weight = 0.9
         self.energy_weight = 0.1
         self.buffer_using = 0
-        self.job_arrive_prob = 0.2
+        self.job_arrive_prob = 1
         self.trans_speed = 1 * 360/8 * np.log2(1 + (self.trans_power * np.power(self.position, -1 * self.path_loss_exp)) / np.power(10, self.SNR / 10))
 
     def get_load(self):
