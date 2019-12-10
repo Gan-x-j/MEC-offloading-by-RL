@@ -19,19 +19,19 @@ class EdgeEnv:
         self.buffer_using = 0
         self.users = []
 
-        self.reset()
+        #self.reset()
 
-    def reset(self):
+    def reset(self, time, user_pos_distribution, user_pos_prob_distribution, user_job_arrive_prob):
         self.users.clear()
         for i in range(self.num_user):
             new_user = User(self.user_cpu_speed, self.avg_job_cycles, self.SERVER_CPU_SPEED,
-                            self.user_job_arrive_prob, self.user_job_arrive_rate, np.random.randint(10, 101),
+                            user_job_arrive_prob, self.user_job_arrive_rate, np.random.choice(user_pos_distribution, p=user_pos_prob_distribution),
                             self.user_time_weight, self.user_energy_weight)
             self.users.append(new_user)
         self.buffer_using = 0
-        return self.buffer_using
+        return time, self.buffer_using
 
-    def step(self, new_price):
+    def step(self, time, new_price):
         terminal = False
         if self.buffer_using - 10 * self.SERVER_CPU_SPEED > 0:
             self.buffer_using -= 10 * self.SERVER_CPU_SPEED
@@ -49,4 +49,4 @@ class EdgeEnv:
                 reward += self.users[i].get_sum_cost(true_delay, 'LOCAL')
             elif cur_user_decision == 'NO_TASK':
                 continue
-        return self.buffer_using, reward
+        return (time, self.buffer_using), reward

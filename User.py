@@ -1,6 +1,5 @@
 import numpy as np
 
-
 class User:
     def __init__(self, cpu_speed, avg_job_cycle, server_cpu_speed,
                  job_arrive_prob, rate, position, time_weight, energy_weight):
@@ -19,7 +18,7 @@ class User:
         self.energy_weight = energy_weight
 
         self.buffer_using = 0
-        self.trans_speed = 5 * 360/8 * np.log2(1 + (self.trans_power * np.power(self.position, -1 * self.path_loss_exp)) / np.power(10, self.SNR / 10))
+        self.trans_speed = 360/8 * np.log2(1 + (self.trans_power * np.power(self.position, -1 * self.path_loss_exp)) / np.power(10, self.SNR / 10))
 
     def get_load(self):
         return self.avg_job_cycles * self.job_arrive_rate
